@@ -1,0 +1,50 @@
+server:
+  port: 6001
+  servlet:
+    session:
+      timeout: PT6H
+
+spring:
+  application:
+    # 服务名称
+    name: GateMagnetismBackstage
+  cloud:
+    config:
+      # 对应 {application} 部分
+      name: system
+      # 对应 {profile} 部分
+      profile: dev
+      #discovery:
+        # 开启 Config 服务发现与注册
+        #enabled: true
+        # 指定 server
+        #service-id: config-eureka-server
+      username: lockadmin
+      password: lock123
+      uri: http://127.0.0.1:8000
+  jackson:
+    #参数意义：
+    #JsonInclude.Include.ALWAYS       默认
+    #JsonInclude.Include.NON_DEFAULT   属性为默认值不序列化
+    #JsonInclude.Include.NON_EMPTY     属性为 空（””） 或者为 NULL 都不序列化
+    #JsonInclude.Include.NON_NULL      属性为NULL  不序列化
+    default-property-inclusion: ALWAYS
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+eureka:
+  instance:
+    # 使用 ip 代替实例名
+    prefer-ip-address: true
+    # 实例的主机名
+    hostname: ${spring.cloud.client.ip-address}
+    # 实例的 ID 规则
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+  client:
+    serviceUrl:
+      # 注册中心地址
+      defaultZone: http://${eureka.instance.hostname}:1001/eureka/
+
+
+
+
